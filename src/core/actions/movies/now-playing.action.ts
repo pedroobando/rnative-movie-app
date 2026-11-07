@@ -1,5 +1,6 @@
 import { movieApi } from '@/core/api/movie-api';
-import { IMovie, MovieDBMoviesResponse, MovieMapper } from '@/infrastructure';
+import type { IMovie, MovieDBMoviesResponse } from '@/infrastructure';
+import { MovieMapper } from '@/infrastructure';
 import { tryCatch } from '@/utils';
 
 export const nowPlayingAction = async (): Promise<IMovie[]> => {

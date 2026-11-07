@@ -5,7 +5,32 @@ import {
   upComingMoviesAction,
 } from '@/core/actions';
 
-import { useQuery } from '@tanstack/react-query';
+import type { IMoviePage } from '@/infrastructure';
+
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+
+/** Acción que devuelve una página de películas paginada. */
+type PagedMoviesAction = (page: number) => Promise<IMoviePage>;
+
+/**
+ * Hook generico para listados con scroll infinito.
+ * `key` identifica la cache, `action` pide una pagina concreta al backend.
+ */
+const useInfiniteMovies = (key: string, action: PagedMoviesAction) => {
+  const query = useInfiniteQuery({
+    queryKey: ['movies', key],
+    queryFn: ({ pageParam }) => action(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+    staleTime: 1000 * 60 * 60 * 24, // 24horas.
+  });
+
+  const movies = useMemo(() => query.data?.pages.flatMap((page) => page.movies) ?? [], [query.data]);
+
+  return { query, movies };
+};
 
 export const useMovies = () => {
   const nowPlayingQuery = useQuery({
@@ -14,27 +39,17 @@ export const useMovies = () => {
     staleTime: 1000 * 60 * 60 * 24, // 24horas.
   });
 
-  const popularQuery = useQuery({
-    queryKey: ['movies', 'popular'],
-    queryFn: popularMoviesAction,
-    staleTime: 1000 * 60 * 60 * 24, // 24horas.
-  });
-
-  const topRateQuery = useQuery({
-    queryKey: ['movies', 'topRate'],
-    queryFn: topRateMoviesAction,
-    staleTime: 1000 * 60 * 60 * 24, // 24horas.
-  });
-  const upComingQuery = useQuery({
-    queryKey: ['movies', 'upComing'],
-    queryFn: upComingMoviesAction,
-    staleTime: 1000 * 60 * 60 * 24, // 24horas.
-  });
+  const popular = useInfiniteMovies('popular', popularMoviesAction);
+  const topRate = useInfiniteMovies('topRate', topRateMoviesAction);
+  const upComing = useInfiniteMovies('upComing', upComingMoviesAction);
 
   return {
     nowPlayingQuery,
-    popularQuery,
-    topRateQuery,
-    upComingQuery,
+    popularQuery: popular.query,
+    popularMovies: popular.movies,
+    topRateQuery: topRate.query,
+    topRateMovies: topRate.movies,
+    upComingQuery: upComing.query,
+    upComingMovies: upComing.movies,
   };
 };

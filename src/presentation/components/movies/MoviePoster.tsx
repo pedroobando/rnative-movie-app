@@ -1,4 +1,5 @@
 import { Image, Pressable } from 'react-native';
+import { memo } from 'react';
 
 interface Props {
   id: number;
@@ -11,25 +12,22 @@ interface Props {
   className?: string;
 }
 
-export const MoviePoster = ({
-  id,
-  poster,
-  smallPoster = false,
-  width,
-  height,
-  className,
-}: Props) => {
-  return (
-    <Pressable className={`active:opacity-90 ${className}`} style={{ alignItems: 'center' }}>
-      <Image
-        source={{ uri: poster }}
-        className="shadow-lg rounded-xl w-full h-full"
-        style={{
-          width: width ?? (smallPoster ? 85 : 150),
-          height: height ?? (smallPoster ? 130 : 250),
-        }}
-        resizeMode="cover"
-      />
-    </Pressable>
-  );
-};
+export const MoviePoster = memo(
+  ({ id, poster, smallPoster = false, width, height, className }: Props) => {
+    return (
+      <Pressable className={`active:opacity-90 ${className}`} style={{ alignItems: 'center' }}>
+        <Image
+          source={{ uri: poster }}
+          className="shadow-lg rounded-xl w-full h-full"
+          style={{
+            width: width ?? (smallPoster ? 85 : 150),
+            height: height ?? (smallPoster ? 130 : 250),
+          }}
+          resizeMode="cover"
+        />
+      </Pressable>
+    );
+  },
+);
+
+MoviePoster.displayName = 'MoviePoster';
