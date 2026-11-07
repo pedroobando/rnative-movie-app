@@ -1,4 +1,4 @@
-import { IMovie } from '@/infrastructure';
+import type { IMovie } from '@/infrastructure';
 import { View } from 'react-native';
 
 import { Carousel } from 'react-native-reanimated-carousel';

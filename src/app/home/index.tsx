@@ -2,7 +2,15 @@ import { MainSlideShow, MovieHorizontalList, SafeAreaScreen, useMovies } from '@
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 const HomeScreen = () => {
-  const { nowPlayingQuery, popularQuery, topRateQuery, upComingQuery } = useMovies();
+  const {
+    nowPlayingQuery,
+    popularQuery,
+    popularMovies,
+    topRateQuery,
+    topRateMovies,
+    upComingQuery,
+    upComingMovies,
+  } = useMovies();
 
   if (
     nowPlayingQuery.isLoading ||
@@ -26,15 +34,32 @@ const HomeScreen = () => {
         <Text className="text-3xl font-bold px-4 mb-2">Movies Apps</Text>
         <MainSlideShow movies={nowPlayingQuery.data ?? []} />
 
-        <MovieHorizontalList title="Populars" movies={popularQuery.data ?? []} className="mt-4" />
+        <MovieHorizontalList
+          title="Populars"
+          movies={popularMovies}
+          className="mt-4"
+          onLoadMore={() => popularQuery.fetchNextPage()}
+          isLoadingMore={popularQuery.isFetchingNextPage}
+          hasNextPage={popularQuery.hasNextPage}
+        />
+
+        <MovieHorizontalList
+          title="Mejor Calificadas"
+          movies={topRateMovies}
+          className="mt-4"
+          onLoadMore={() => topRateQuery.fetchNextPage()}
+          isLoadingMore={topRateQuery.isFetchingNextPage}
+          hasNextPage={topRateQuery.hasNextPage}
+        />
 
         <MovieHorizontalList
           title="Proximamente"
-          movies={upComingQuery.data ?? []}
+          movies={upComingMovies}
           className="mt-4"
+          onLoadMore={() => upComingQuery.fetchNextPage()}
+          isLoadingMore={upComingQuery.isFetchingNextPage}
+          hasNextPage={upComingQuery.hasNextPage}
         />
-
-        <MovieHorizontalList title="Top Rate" movies={topRateQuery.data ?? []} className="mt-4" />
       </ScrollView>
     </SafeAreaScreen>
   );
