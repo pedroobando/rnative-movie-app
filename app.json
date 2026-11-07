@@ -3,9 +3,9 @@
     "name": "movies-app",
     "slug": "movies-app",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
-    "scheme": "moviesapp",
+    "scheme": "uniwinddemo",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
