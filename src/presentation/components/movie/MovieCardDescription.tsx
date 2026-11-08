@@ -1,7 +1,9 @@
 import type { ICompleteMovie } from '@/infrastructure';
-import { formatBudget, formatRating } from '@/utils';
+import { formatBudget } from '@/utils';
 
 import { Text, View } from 'react-native';
+
+import { RatingStars } from './RatingStars';
 
 interface Props {
   /** Película a mostrar. El componente solo recibe datos, no hace ninguna consulta. */
@@ -24,10 +26,13 @@ export const MovieCardDescription = ({ movie }: Props) => {
 
       <Text className="mt-1 text-3xl font-bold text-black">{title}</Text>
 
-      <Text className="mt-1 text-base text-neutral-700">
-        {formatRating(rating)}
-        {genres.length ? ` - ${genres.join(', ')}` : ''}
-      </Text>
+      <View className="mt-1 flex-row items-center">
+        <RatingStars rating={rating} />
+      </View>
+
+      {genres.length ? (
+        <Text className="mt-1 text-base text-neutral-700">{genres.join(', ')}</Text>
+      ) : null}
 
       {description ? (
         <>

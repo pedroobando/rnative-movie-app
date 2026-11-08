@@ -1,2 +1,2 @@
-export { formatBudget, formatRating } from './format';
+export { formatBudget, formatRating, ratingToStars } from './format';
 export { tryCatch } from './try-catch';
