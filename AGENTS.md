@@ -35,10 +35,6 @@ destructivos o pushes. Las lecturas, búsquedas y verificaciones no requieren co
 - **Framework**: Expo SDK 58 / React Native 0.88 con **Expo Router**.
 - **Data fetching / cache**: **TanStack Query** (`@tanstack/react-query`) — toda llamada al backend
   pasa por un `useQuery` y sus `queryKey`.
-- **Global state**: **Zustand** — solo para estado de cliente (filtros, preferencias, sesión). No
-  dupliques en el store lo que TanStack Query ya cachea. *Pendiente de uso*: la dependencia está
-  instalada pero el proyecto aún no lo utiliza; si al final no se usa, desinstálala con
-  `bunx expo uninstall zustand`.
 - **Styling**: **Uniwind** (Tailwind CSS v4 para React Native) con tokens CSS-first en
   `src/global.css`. No uses `StyleSheet.create` para estilos nuevos ni libraries de estilos
   adicionales.
@@ -95,13 +91,6 @@ Keep it that way: no `axios` calls inside components, no API DTOs leaking into `
   instead of refetching on mount.
 - Mutations invalidate the affected `queryKey`s with `queryClient.invalidateQueries`.
 - Loading and empty states are handled in the screen, not inside the hook.
-
-## Zustand
-
-- One store per domain, colocated under `src/presentation/stores/` (or `src/core/stores/` if it is
-  purely business state) and exported from the layer's `index.ts` barrel.
-- Keep stores flat and serializable; no promises or class instances inside the state.
-- Use selectors to subscribe to the smallest slice possible and avoid re-rendering whole screens.
 
 ## Uniwind styling
 
