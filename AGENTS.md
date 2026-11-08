@@ -18,6 +18,9 @@ pasos **en orden**. No te saltes ninguno.
    para crear una rama nueva en GitHub. Si se otorga:
    - Crea la rama localmente y publícala en el remoto (`git checkout -b <nombre>` +
      `git push -u origin <nombre>`), dejando `main` intacto.
+   - **Nunca hagas `git commit`**: los commits los realiza la persona a cargo del repositorio. Deja
+     los cambios en el working tree, sin commitear, y menciona en tu resumen qué archivos
+     quedaron modificados para que pueda commitearlos.
    - Asigna tú el nombre de la rama según la tarea, en minúsculas y con guiones, p. ej.
      `feature/movie-details`, `fix/infinite-scroll`.
    - Si el permiso se deniega, continúa en la rama actual sin crear ninguna rama.
@@ -128,3 +131,4 @@ Docs: https://docs.expo.dev/eas/index.md
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
 - Install dependencies with `bunx expo install <package>` so the resolved version matches the current Expo SDK; never bump versions by hand.
 - Secrets live in `.env` (gitignored) and are exposed to the app as `EXPO_PUBLIC_*` variables. Never hardcode API keys in the source.
+- **Nunca ejecutes `git commit`** (ni `git commit --amend`, ni `git merge`, ni nada que cree un commit). El versionado de commits es responsabilidad de la persona. Sí puedes leer el historial (`git log`, `git diff`, `git status`) y crear/publicar ramas cuando se autorice.
