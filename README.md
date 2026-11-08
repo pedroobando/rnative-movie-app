@@ -206,3 +206,23 @@ El CSS se importa **una sola vez** en el layout raíz (`src/app/_layout.tsx`).
   `page` y `totalPages` con `TMDB_MAX_PAGE` (`src/core/constants/movie.constants.ts`).
 - **Barrels**: cada capa expone un `index.ts` (`src/core/actions`, `src/infrastructure`,
   `src/presentation`, `src/utils`) para imports limpios desde fuera de la capa.
+
+## Curso
+
+Este proyecto es una de las secciones del curso
+[**React Native Expo: Aplicaciones nativas para IOS y Android**](https://www.udemy.com/course/react-native-expo/)
+de **Fernando Herrera** y el equipo de
+[**DevTalles**](https://www.udemy.com/user/soporte-cursos-2/), donde se explica paso a paso la
+construcción de esta app de películas: peticiones HTTP con Axios, mapeo de respuestas a modelos
+propios, TanStack Query con caché e infinite scroll, carousel, listas horizontales, navegación con
+Expo Router, pantalla de detalle y estilos con Tailwind/Uniwind.
+
+- Curso completo: <https://www.udemy.com/course/react-native-expo/>
+
+El código de este repositorio corresponde a la sección **MoviesApp** del curso.
+
+## Desarrollo asistido por IA
+
+Este proyecto se desarrolló con el apoyo del agente de programación **Pi**
+(<https://pi.dev/>), usando el modelo **MiniMax M3.1 Flash** (`MiniMax-M3.1-Flash`) para las
+tareas de análisis, refactorización y documentación.
