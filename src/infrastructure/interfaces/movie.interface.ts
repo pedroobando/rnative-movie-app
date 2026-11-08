@@ -15,3 +15,22 @@ export interface IMoviePage {
   totalPages: number;
   totalResults: number;
 }
+
+export interface ICompleteMovie extends IMovie {
+  genres: string[];
+  duration: number;
+  budget: number;
+  originalTitle: string;
+  productionCompanies: string[];
+  /** Protagonistas (reparto principal), ordenados porbilling. */
+  cast: ICastMember[];
+}
+
+/** Un actor del reparto. */
+export interface ICastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile: string | null;
+  order: number;
+}

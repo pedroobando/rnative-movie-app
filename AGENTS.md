@@ -1,5 +1,30 @@
 This is an Expo/React Native mobile application written in **TypeScript**. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
 
+## Flujo de trabajo obligatorio (cómo debe trabajar el agente)
+
+Cada vez que la persona pida un tema, una funcionalidad o un cambio de código, sigue estos
+pasos **en orden**. No te saltes ninguno.
+
+1. **Entender (investigación previa).** Antes de tocar nada, investiga el proyecto: lee el código
+   relacionado, la documentación oficial de la versión instalada de Expo y los archivos
+   afectados. No asumas: verifica contra el código real y las docs versionadas. Si el requerimiento
+   es ambiguo, pregunta antes de seguir.
+2. **Proponer (plan).** Con el tema claro, presenta la solución como un plan en pasos o, si es
+   una consulta pura, responde directamente. Indica qué archivos se tocarán, qué decisiones se
+   toman y los riesgos o alternativas.
+3. **Esperar confirmación.** No ejecutes cambios hasta que la persona (o el usuario que esté al
+   mando) confirme explícitamente. Registra el plan con la herramienta `todo` para que sea visible.
+4. **Rama (branch) para cambios de código.** Si la acción aprobada modifica código, pide permiso
+   para crear una rama nueva en GitHub. Si se otorga:
+   - Crea la rama localmente y publícala en el remoto (`git checkout -b <nombre>` +
+     `git push -u origin <nombre>`), dejando `main` intacto.
+   - Asigna tú el nombre de la rama según la tarea, en minúsculas y con guiones, p. ej.
+     `feature/movie-details`, `fix/infinite-scroll`.
+   - Si el permiso se deniega, continúa en la rama actual sin crear ninguna rama.
+
+La confirmación es obligatoria para cualquier escritura de archivos, ejecuciones de comandos
+destructivos o pushes. Las lecturas, búsquedas y verificaciones no requieren confirmación.
+
 ## Stack
 
 - **Language**: TypeScript (strict mode, `noUncheckedIndexedAccess` cuando sea posible).
