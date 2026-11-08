@@ -1,7 +1,7 @@
 import type { ICastMember } from '@/infrastructure';
 
 import { Image } from 'expo-image';
-import { memo, useCallback } from 'react';
+import { useCallback } from 'react';
 import { FlatList, Text, View } from 'react-native';
 
 interface Props {
@@ -15,7 +15,7 @@ const ITEM_WIDTH = 110;
 /** Radio de borde suave para las fotos del reparto. */
 const BORDER_RADIUS = 12;
 
-export const MovieCastList = memo(({ cast, imageSize = 80, className }: Props) => {
+export const MovieCastList = ({ cast, imageSize = 80, className }: Props) => {
   const renderItem = useCallback(
     ({ item }: { item: ICastMember }) => (
       <View className="items-center mr-3" style={{ width: ITEM_WIDTH }}>
@@ -62,6 +62,4 @@ export const MovieCastList = memo(({ cast, imageSize = 80, className }: Props) =
       />
     </View>
   );
-});
-
-MovieCastList.displayName = 'MovieCastList';
+};

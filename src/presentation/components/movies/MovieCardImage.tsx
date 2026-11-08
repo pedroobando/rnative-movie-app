@@ -1,15 +1,13 @@
-import type { ICompleteMovie } from '@/infrastructure';
-import { formatBudget, formatRating } from '@/utils';
-
 import { Image } from 'expo-image';
-import { memo } from 'react';
-import { Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, useWindowDimensions, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 
 interface Props {
   /** Película a mostrar. El componente solo recibe datos, no hace ninguna consulta. */
-  movie: ICompleteMovie;
+  poster: string;
 }
 
 /** Proporción del póster vertical (TMDB devuelve imágenes de 500x750). */
@@ -22,9 +20,9 @@ const POSTER_ASPECT_RATIO = 2 / 3;
  * Es un componente puramente presentacional: recibe la película ya cargada
  * y no realiza ninguna llamada a la API.
  */
-export const MovieDetailsCard = memo(({ movie }: Props) => {
+export const MovieCardImage = ({ poster }: Props) => {
   const { height: screenHeight } = useWindowDimensions();
-  const { title, originalTitle, rating, genres, description, budget, poster } = movie;
+  const insets = useSafeAreaInsets();
 
   return (
     <View>
@@ -50,28 +48,25 @@ export const MovieDetailsCard = memo(({ movie }: Props) => {
         </View>
       ) : null}
 
-      <View className="px-5 pt-5 pb-10">
-        {originalTitle ? <Text className="text-base text-neutral-800">{originalTitle}</Text> : null}
-
-        <Text className="mt-1 text-3xl font-bold text-black">{title}</Text>
-
-        <Text className="mt-1 text-base text-neutral-700">
-          {formatRating(rating)}
-          {genres.length ? ` - ${genres.join(', ')}` : ''}
-        </Text>
-
-        {description ? (
-          <>
-            <Text className="mt-6 text-2xl font-bold text-black">Historia</Text>
-            <Text className="mt-1 text-base leading-6 text-neutral-800">{description}</Text>
-          </>
-        ) : null}
-
-        <Text className="mt-6 text-2xl font-bold text-black">Presupuesto</Text>
-        <Text className="mt-1 text-base text-neutral-900">{formatBudget(budget)}</Text>
-      </View>
+      {/* Botón de retroceso superpuesto sobre el póster. */}
+      <Pressable
+        onPress={() => router.back()}
+        accessibilityRole="button"
+        accessibilityLabel="Volver"
+        className="absolute z-10 h-11 w-11 items-center justify-center"
+        style={{ top: insets.top + 8, left: 12 }}
+      >
+        <View
+          style={{
+            height: 20,
+            width: 20,
+            borderLeftWidth: 3,
+            borderBottomWidth: 3,
+            borderColor: '#ffffff',
+            transform: [{ rotate: '45deg' }],
+          }}
+        />
+      </Pressable>
     </View>
   );
-});
-
-MovieDetailsCard.displayName = 'MovieDetailsCard';
+};

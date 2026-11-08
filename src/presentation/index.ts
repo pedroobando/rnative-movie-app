@@ -4,7 +4,8 @@ export { useMovies } from './hooks/useMovies';
 export { useSafeAreaLayout } from './hooks/useSafeAreaLayout';
 
 export { MainSlideShow } from './components/movies/MainSlideShow';
+export { MovieCardDescription } from './components/movies/MovieCardDescription';
+export { MovieCardImage } from './components/movies/MovieCardImage';
 export { MovieCastList } from './components/movies/MovieCastList';
-export { MovieDetailsCard } from './components/movies/MovieDetailsCard';
 export { MovieHorizontalList } from './components/movies/MovieHorizontalList';
 export { SafeAreaScreen } from './components/SafeAreaScreen';
