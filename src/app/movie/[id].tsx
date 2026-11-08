@@ -1,15 +1,15 @@
 import { MovieCastList } from '@/presentation/components/movies/MovieCastList';
 import { useMovieById } from '@/presentation/hooks/useMovieById';
 
-import { useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
+import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 const MovieScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const movieId = id ?? '';
 
-  const { data: movie, isLoading, isError } = useMovieById(movieId);
+  const { data: movie, isLoading, isError } = useMovieById(+movieId);
 
   if (isLoading) {
     return (
@@ -48,10 +48,7 @@ const MovieScreen = () => {
         {movie?.genres?.length ? (
           <View className="mt-3 flex flex-row flex-wrap gap-2">
             {movie.genres.map((genre) => (
-              <View
-                key={genre}
-                className="rounded-full bg-neutral-800 px-3 py-1"
-              >
+              <View key={genre} className="rounded-full bg-neutral-800 px-3 py-1">
                 <Text className="text-xs text-neutral-200">{genre}</Text>
               </View>
             ))}
@@ -59,9 +56,7 @@ const MovieScreen = () => {
         ) : null}
 
         {movie?.description ? (
-          <Text className="mt-4 text-base leading-6 text-neutral-300">
-            {movie.description}
-          </Text>
+          <Text className="mt-4 text-base leading-6 text-neutral-300">{movie.description}</Text>
         ) : null}
 
         <Text className="mt-6 mb-2 text-xl font-bold text-white">Reparto</Text>

@@ -17,6 +17,7 @@ export const getMovieByIdAction = async (id: number | string): Promise<IComplete
     }),
   );
 
+  console.log(`Pelicula Cargada http`);
   if (error) {
     throw new Error(`Cannot load movie id:${movieId}...`, { cause: error });
   }
