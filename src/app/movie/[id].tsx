@@ -1,15 +1,17 @@
-import { MovieCastList } from '@/presentation/components/movies/MovieCastList';
+import { MovieCastList, MovieDetailsCard } from '@/presentation';
 import { useMovieById } from '@/presentation/hooks/useMovieById';
 
-import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MovieScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const movieId = id ?? '';
 
   const { data: movie, isLoading, isError } = useMovieById(+movieId);
+  const insets = useSafeAreaInsets();
 
   if (isLoading) {
     return (
@@ -27,48 +29,56 @@ const MovieScreen = () => {
     );
   }
 
+  if (!movie) {
+    return (
+      <View className="flex flex-1 items-center justify-center">
+        <Text className="text-2xl text-orange-800">No se pudo cargar la película</Text>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView className="flex-1 bg-neutral-950">
-      {movie?.backdrop ? (
-        <Image
-          source={{ uri: movie.backdrop }}
-          style={{ width: '100%', height: 240 }}
-          contentFit="cover"
-          transition={200}
-        />
-      ) : null}
+    <View className="flex-1 bg-white">
+      <StatusBar style="light" />
 
-      <View className="px-4 pt-4 pb-10">
-        <Text className="text-3xl font-bold text-white">{movie?.title ?? id}</Text>
-        <Text className="mt-1 text-sm text-neutral-400">
-          {movie?.releaseDate.toLocaleDateString('es-MX')} • {movie?.duration} min • ⭐{' '}
-          {movie?.rating.toFixed(1)}
-        </Text>
+      <ScrollView
+        className="flex-1 bg-white"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
+      >
+        <MovieDetailsCard movie={movie} />
 
-        {movie?.genres?.length ? (
-          <View className="mt-3 flex flex-row flex-wrap gap-2">
-            {movie.genres.map((genre) => (
-              <View key={genre} className="rounded-full bg-neutral-800 px-3 py-1">
-                <Text className="text-xs text-neutral-200">{genre}</Text>
-              </View>
-            ))}
+        {movie.cast.length ? (
+          <View className="px-5">
+            <Text className="text-2xl font-bold text-black">Reparto</Text>
+            <View className="mt-3">
+              {/* Solo los 12 primeros (los más relevantes según TMDB). */}
+              <MovieCastList cast={movie.cast.slice(0, 12)} />
+            </View>
           </View>
         ) : null}
+      </ScrollView>
 
-        {movie?.description ? (
-          <Text className="mt-4 text-base leading-6 text-neutral-300">{movie.description}</Text>
-        ) : null}
-
-        <Text className="mt-6 mb-2 text-xl font-bold text-white">Reparto</Text>
-
-        {movie?.cast?.length ? (
-          // Solo los 12 primeros (los más relevantes según TMDB).
-          <MovieCastList cast={movie.cast.slice(0, 12)} />
-        ) : (
-          <Text className="text-sm text-neutral-500">No hay información del reparto.</Text>
-        )}
-      </View>
-    </ScrollView>
+      {/* Botón de retroceso superpuesto sobre el póster. */}
+      <Pressable
+        onPress={() => router.back()}
+        accessibilityRole="button"
+        accessibilityLabel="Volver"
+        className="absolute z-10 h-11 w-11 items-center justify-center"
+        style={{ top: insets.top + 8, left: 12 }}
+      >
+        <View
+          style={{
+            height: 20,
+            width: 20,
+            borderLeftWidth: 3,
+            borderBottomWidth: 3,
+            borderColor: '#ffffff',
+            transform: [{ rotate: '45deg' }],
+          }}
+        />
+      </Pressable>
+    </View>
   );
 };
 
